@@ -3,5 +3,4 @@ var app = express();
 
 app.listen(3020, () => {
     console.log("Well done, now I am listening...");
-    console.log("HOWDY MATES, WHAT'S UP?");
 });
