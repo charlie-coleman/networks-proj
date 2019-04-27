@@ -4,6 +4,7 @@
   "description": "Chat client for CSCI 3650 Computer Networks",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Charlie Coleman, Nick Markunas",
@@ -11,8 +12,9 @@
   "dependencies": {
     "express": "^4.16.4",
     "nodemon": "^1.18.10",
-    "pg": "^7.9.0",
-    "sequelize": "^5.1.1",
+    "pg": "^7.10.0",
+    "sequelize": "^5.7.6",
+    "socket.io": "^2.2.0",
     "webrtc": "^1.14.1"
   }
 }

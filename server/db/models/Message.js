@@ -19,8 +19,8 @@ Message.createMessage = (text, sender, reciever) => {
         _id: sender.id,
         name: sender.name
       }
-    });
-    conn.models.conversation.findOrCreateConversation(sender.id, reciever.id);
+    }),
+    conn.models.conversation.findOrCreateConversation(sender.id, reciever.id)
   ])
     .then(([message, conversation]) => message.setConversation(conversation));
 }

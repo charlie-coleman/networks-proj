@@ -1,11 +1,11 @@
 const conn = require('./conn');
-const Conversation = require('./models/Conversation.js');
-const Message = require('./models/Message.js');
-const User = require('./models/User.js');
+const Conversation = require('./models/Conversation');
+const Message = require('./models/Message');
+const User = require('./models/User');
 
-User.hasMany(Conversation);
 Conversation.belongsTo(User, { as: 'user1' });
 Conversation.belongsTo(User, { as: 'user2' });
+User.hasMany(Conversation);
 Message.belongsTo(Conversation);
 Conversation.hasMany(Message);
 
