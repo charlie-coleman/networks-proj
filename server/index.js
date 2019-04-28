@@ -1,4 +1,4 @@
-const server = require('http').createServer((request)).listen(3000);
+const server = require('http').createServer().listen(3000);
 const conn = require('./db').conn;
 const { Op } = conn.Sequelize;
 const io = require('socket.io')(server);
