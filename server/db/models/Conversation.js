@@ -7,10 +7,21 @@ const Conversation = conn.define('conversation', {
 });
 
 Conversation.findOrCreateConversation = function(user1Id, user2Id) {
-  return Conversation.find()
+  return Conversation.findAll({
+    where: {
+      user1Id: {
+        [Op.or]: [user1Id, user2Id]
+      },
+      user2Id: {
+        [Op.or]: [user1Id, user2Id]
+      }
+    },
+    include: [ conn.models.message ],
+    order: [[ conn.models.message, 'createdAt', 'DESC' ]]
+  })
     .then(conversation => {
-      if(conversation) {
-        return conversation;
+      if(conversation.length > 0) {
+        return conversation[0];
       } else {
         return Conversation.create({
           user1Id: user1Id,

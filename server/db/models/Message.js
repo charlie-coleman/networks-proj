@@ -11,18 +11,19 @@ const Message = conn.define('message', {
   }
 });
 
-Message.createMessage = (text, sender, reciever) => {
-  return Promise.all([
-    Message.create({
-      text,
-      user: {
-        _id: sender.id,
-        name: sender.name
-      }
-    }),
-    conn.models.conversation.findOrCreateConversation(sender.id, reciever.id)
-  ])
-    .then(([message, conversation]) => message.setConversation(conversation));
+Message.createMessage = (text, sender, receiver) => {
+    return Promise.all([
+        Message.create({
+            text,
+            user: {
+                _id: sender.id,
+                name: sender.name
+            }
+        }),
+        conn.models.conversation.findOrCreateConversation(sender.id, receiver.id)
+    ])
+        .catch(() => console.log("failure"))
+        .then(([message, conversation]) => message.setConversation(conversation));
 }
 
 module.exports = Message;
