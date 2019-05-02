@@ -11,7 +11,7 @@ const Message = conn.define('message', {
   }
 });
 
-Message.createMessage = (text, sender, receiver) => {
+Message.createMessage = (text, sender, convoId) => {
     return Promise.all([
         Message.create({
             text,
@@ -20,9 +20,9 @@ Message.createMessage = (text, sender, receiver) => {
                 name: sender.name
             }
         }),
-        conn.models.conversation.findOrCreateConversation(sender.id, receiver.id)
+        conn.models.conversation.getConversation(convoId)
     ])
-        .catch(() => console.log("failure"))
+        .catch((e) => console.log(e, "failure"))
         .then(([message, conversation]) => message.setConversation(conversation));
 }
 

@@ -1,11 +1,14 @@
 import { createStore, combineReducers } from 'redux';
-import users, { gotUsers, gotNewUser, clearUsers } from './users';
-import messages, { gotMessages, gotNewMessage } from './messages';
+
+import messages, { gotMessages, gotNewMessage, clearMessages } from './messages';
 import user, { gotUser, clearUser } from './user';
-import receiver, { gotReceiver, clearReceiver } from './receiver';
+import conversations, { gotConversations, addConversation, clearConversations } from './conversations';
+import users, { gotUsers, addUser, clearUsers } from './users';
+import conversation, { gotConversation, clearConversation } from './conversation';
+
 import socket from './socket';
 
-const reducers = combineReducers({ users, messages, user, receiver });
+const reducers = combineReducers({ messages, user, users, conversation, conversations });
 
 const store = createStore(
     reducers,
@@ -16,49 +19,80 @@ socket.on('priorMessages', messages => {
     store.dispatch(gotMessages(messages));
 });
 
-socket.on('userCreated', response => {
-    const { user, users } = response;
-    store.dispatch(gotUser(user));
-    store.dispatch(gotUsers(users));
-});
-
-socket.on('newUser', user => {
-    store.dispatch(gotNewUser(user));
+socket.on('authsuccess', user => {
+  store.dispatch(gotUser(user.user));
 });
 
 socket.on('incomingMessage', message => {
     store.dispatch(gotNewMessage(message));
 });
 
+socket.on('conversation', conversation => {
+  store.dispatch(gotConversation(conversation));
+})
+
+socket.on('conversations', conversations => {
+  store.dispatch(gotConversations(conversations));
+});
+
+socket.on('newConversation', conversation => {
+  store.dispatch(addConversation(conversation));
+});
+
+socket.on('users', users => {
+  store.dispatch(gotUsers(users));
+});
+
+socket.on('newUser', user => {
+  store.dispatch(addUser(user));
+})
+
 export const login = (credentials) => {
-    socket.emit('newUser', credentials);
+    socket.emit('login', credentials);
 };
+
+export const register = (credentials) => {
+  socket.emit('newUser', credentials);
+}
+
+export const getConvos = (userId) => {
+  socket.emit('getConversations', userId);
+}
+
+export const getUsers = () => {
+  socket.emit('getUsers');
+}
+
+export const openConvo = (id) => {
+  socket.emit('openchat', id);
+}
+
+export const createConvo = (name, userIds) => {
+  socket.emit('createchat', { name, userIds });
+}
 
 export const logout = () => {
     store.dispatch(clearUser());
-    store.dispatch(clearReceiver());
     store.dispatch(clearUsers());
+    store.dispatch(clearConversation());
+    store.dispatch(clearConversations());
+    store.dispatch(clearMessages());
 }
 
-export const chooseChat = () => {
-    store.dispatch(clearReceiver());
+export const chooseConversation = () => {
+  store.dispatch(clearConversation());
+  store.dispatch(clearConversations());
+  store.dispatch(clearMessages());
 }
 
-export const openChat = users => {
-    socket.emit('chat', users);
-};
+login({ name: "charlie", password: "123" });
 
-export const setReceiver = receiver => {
-    store.dispatch(gotReceiver(receiver));
-}
-
-export const sendMessage = (text, sender, receiver) => {
-    socket.emit('message', { text, sender, receiver });
+export const sendMessage = (text, sender, convoId) => {
+    socket.emit('message', { text, sender, convoId });
 };
 
 export default store;
-export * from './receiver';
-export * from './users';
+export * from './conversations';
 export * from './user';
-export * from './receiver';
 export * from './messages';
+export * from './users';

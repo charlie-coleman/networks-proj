@@ -37,12 +37,28 @@
     font-size: 20px;
     height: 100%;
     padding: 22px 10px;
+    color: white;
 }
 .menu-link:hover {
     background-color: white;
     color: black;
 }
+.title-cont a {
+  text-decoration: none;
+}
 
+.title-cont a:link {
+  color: white;
+}
+.title-cont a:visited {
+  color: white;
+}
+.title-cont a:hover {
+  color: white;
+}
+.title-cont a:active {
+  color: white;
+}
 
 
 .message-list {

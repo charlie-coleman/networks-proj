@@ -3,9 +3,8 @@ const Conversation = require('./models/Conversation');
 const Message = require('./models/Message');
 const User = require('./models/User');
 
-Conversation.belongsTo(User, { as: 'user1' });
-Conversation.belongsTo(User, { as: 'user2' });
-User.hasMany(Conversation);
+User.belongsToMany(Conversation, { through: 'GroupChat' });
+Conversation.belongsToMany(User, { through: 'GroupChat' });
 Message.belongsTo(Conversation);
 Conversation.hasMany(Message);
 

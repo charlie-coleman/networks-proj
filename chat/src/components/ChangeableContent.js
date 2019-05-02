@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Login from './Login';
-import Users from './Users';
+import Conversations from './Conversations';
 import Chat from './Chat';
 
 class ChangeableContent extends React.Component {
     render() {
         let Content = Login;
-        if (this.props.user.id && !this.props.receiver.id) {
-            Content = Users;
-        } else if (this.props.user.id && this.props.receiver.id) {
+        if (this.props.user.id && !this.props.conversation.id) {
+            Content = Conversations;
+        } else if (this.props.user.id && this.props.conversation.id) {
+          console.log('huh?');
             Content = Chat;
         }
         return (
@@ -20,7 +21,7 @@ class ChangeableContent extends React.Component {
 
 const mapState = (state) => ({
     user: state.user,
-    receiver: state.receiver
+    conversation: state.conversation
 });
 
 export default connect(mapState)(ChangeableContent);

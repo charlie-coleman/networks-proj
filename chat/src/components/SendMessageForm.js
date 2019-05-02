@@ -11,21 +11,21 @@ class SendMessageForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     handleChange(e) {
         this.setState({
             message: e.target.value
         });
     }
-    
+
     handleSubmit(e) {
         e.preventDefault();
-        sendMessage(this.state.message, this.props.user, this.props.receiver);
+        sendMessage(this.state.message, this.props.user, this.props.conversation.id);
         this.setState({
             message: ''
         });
     }
-    
+
     render() {
         return (
             <form className="send-message-form" onSubmit={ this.handleSubmit }>
@@ -42,7 +42,7 @@ class SendMessageForm extends React.Component {
 
 const mapState = (state) => ({
     user: state.user,
-    receiver: state.receiver
+    conversation: state.conversation
 });
 
 export default connect(mapState)(SendMessageForm);
