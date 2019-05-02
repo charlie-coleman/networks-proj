@@ -22,20 +22,45 @@ class ChangeableMenu extends React.Component {
     }
 
     render() {
+      var Content;
+      if (this.props.user.id && !this.props.conversation.id) {
+        Content = () => (
+          <div className='title-cont'>
+              <div className="title">Networks Chat App</div>
+              <a href="/" onClick={ (e) => { e.preventDefault(); this.logoutB() } }>
+                  <div className="menu-link">
+                      Logout
+                  </div>
+              </a>
+          </div>
+        )
+      }
+      else if (this.props.user.id && this.props.conversation.id) {
+        Content = () => (
+          <div className='title-cont'>
+              <div className="title">Networks Chat App</div>
+              <a href="/" onClick={ (e) => { e.preventDefault(); this.returnToUsers();} }>
+                  <div className="menu-link" >
+                      Conversation list
+                  </div>
+              </a>
+              <a href="/" onClick={ (e) => { e.preventDefault(); this.logoutB() } }>
+                  <div className="menu-link">
+                      Logout
+                  </div>
+              </a>
+          </div>
+        )
+      }
+      else {
+        Content = () => (
+          <div className='title-cont'>
+              <div className="title">Networks Chat App</div>
+          </div>
+        )
+      }
         return (
-            <div className='title-cont'>
-                <div className="title">Networks Chat App</div>
-                <a href="/" onClick={ (e) => { e.preventDefault(); this.returnToUsers();} }>
-                    <div className="menu-link" >
-                        Conversation list
-                    </div>
-                </a>
-                <a href="/" onClick={ (e) => { e.preventDefault(); this.logoutB() } }>
-                    <div className="menu-link">
-                        Logout
-                    </div>
-                </a>
-            </div>
+          <Content />
         );
     }
 }

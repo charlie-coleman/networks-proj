@@ -85,8 +85,6 @@ export const chooseConversation = () => {
   store.dispatch(clearMessages());
 }
 
-login({ name: "charlie", password: "123" });
-
 export const sendMessage = (text, sender, convoId) => {
     socket.emit('message', { text, sender, convoId });
 };
