@@ -1,4 +1,7 @@
 const Sequelize = require('sequelize');
-const conn = new Sequelize('postgres://networks:password@localhost/chat_app_db');
+const credentials = require('./.credentials.json');
+
+const credString = credentials.username+':'+credentials.password;
+const conn = new Sequelize('postgres://' + credString + '@localhost/chat_app_db');
 
 module.exports = conn;
