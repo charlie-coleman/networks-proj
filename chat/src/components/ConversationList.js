@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: 'powderblue',
-    flexGrow: '0',
+    flexGrow: 0,
     padding: 10,
     borderRadius: 10,
     margin: 15

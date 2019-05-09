@@ -26,6 +26,7 @@ socket.on('authsuccess', user => {
 });
 
 socket.on('incomingMessage', message => {
+  if(message.conversationId === store.getState().conversation.id)
     store.dispatch(gotNewMessage(message));
 });
 

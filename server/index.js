@@ -1,4 +1,5 @@
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const conn = require('./db').conn;
 const { Op } = conn.Sequelize;
@@ -7,33 +8,47 @@ const { User, Conversation, Message } = require('./db').models;
 conn.sync({ logging: false, force: true });
 const mobileSockets = {};
 
-const options = {
-  key: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/privkey.pem"),
-  cert: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/fullchain.pem")
-};
+// const options = {
+//   key: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/privkey.pem"),
+//   cert: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/fullchain.pem")
+// };
 
-const server = https.createServer(options).listen(3000);
+// const server = https.createServer(options).listen(8080);
+const server = http.createServer().listen(8080);
 const io = socket(server);
+
+const unRegex = /^[a-zA-Z0-9\-._:\(\)\!\?]*$/;
 
 io.on('connection', socket => {
   socket.on('newUser', credentials => {
     const { name, password } = credentials;
-    User.findAll({
-      where: {
-        name
-      }
-    }).then((users) => {
-      if(users.length === 0) {
-        User.createSecureUser(name, password).then(user => {
-          mobileSockets[user.id] = socket.id;
-          socket.emit('authsuccess', user);
-          socket.broadcast.emit('newUser', user);
-        });
-      }
-      else {
-        socket.emit('authfailed', 'Username is in use.');
-      }
-    });
+    if (name.match(unRegex) === null) {
+      socket.emit('authfailed', 'Improper username. Illegal characters.');
+    }
+    else if (name.length < 1) {
+      socket.emit('authfailed', 'Improper username. You need a username.');
+    }
+    else if (name.length > 18) {
+      socket.emit('authfailed', 'Improper username. Username too long.');
+    }
+    else {
+      User.findAll({
+        where: {
+          name
+        }
+      }).then((users) => {
+        if(users.length === 0) {
+          User.createSecureUser(name, password).then(user => {
+            mobileSockets[user.id] = socket.id;
+            socket.emit('authsuccess', user);
+            socket.broadcast.emit('newUser', user);
+          });
+        }
+        else {
+          socket.emit('authfailed', 'Username is in use.');
+        }
+      });
+    }
   });
 
   socket.on('login', credentials => {

@@ -77,6 +77,13 @@ class Login extends React.Component {
                   </View>
                 </TouchableWithoutFeedback>
               </View>
+              <View>
+              <ul>
+                <li>Username must only include letters, numbers, and some special characters</li>
+                <li>Special characters allowed:&nbsp; . - _ : ( ) ! ? </li>
+                <li>Username must be between 1-18 characters long</li>
+              </ul>
+              </View>
           </View>
       );
     }
