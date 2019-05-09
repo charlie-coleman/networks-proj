@@ -3,7 +3,7 @@
   --secondary-color: white;
   --main-text-color: #3e5869;
   --secondary-text-color: #b0c7d6;
-  --send-message-form: #F5F5F5;
+  --send-message-form: #AAA;
 }
 
 .content {
@@ -97,17 +97,19 @@
 }
 
 .message div:nth-child(1) {
-  font-size: 12px;
+  font-size: 10pt;
   color: var(--main-text-color);
   opacity: 0.9;
-  margin-bottom: 6px;
+  margin-left: 25px;
 }
 
 .message div:nth-child(2) {
   background: var(--secondary-color);
-  font-size: 20px;
   color: var(--main-color);
   display: inline;
+  font-size: 14pt;
+  margin-bottom: 6px;
+  margin-left: 25px;
 }
 
 .mymessage {
@@ -119,18 +121,19 @@
 }
 
 .mymessage div:nth-child(1) {
-  font-size: 12px;
+  font-size: 10pt;
   color: var(--main-text-color);
   opacity: 0.9;
-  margin-bottom: 6px;
+  margin-right: 25px;
   text-align: right;
 }
 
 .mymessage div:nth-child(2) {
   color: var(--main-color);
   display: inline;
-  font-size: 20px;
+  font-size: 14pt;
   margin-bottom: 6px;
+  margin-right: 25px;
   text-align: right;
 }
 
@@ -140,15 +143,17 @@
   background: var(--send-message-form);
   box-sizing: border-box;
   height: 60px;
+  border-top: solid #444 2px;
 }
 
 .send-message-form input {
-  padding: 15px 10px;
+  padding: 14px 10px;
   border: none;
   margin: 0;
   width: 100%;
   background: var(--send-message-form);
   font-weight: 200;
+  font-size: 14pt;
 }
 
 .send-message-form input:focus {

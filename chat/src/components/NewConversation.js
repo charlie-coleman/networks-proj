@@ -55,7 +55,13 @@ class NewConversation extends React.Component {
         <View style={ styles.inputDiv }>
           <View style={ styles.name }>
             <Text style={ styles.inputLabel }>Name of GroupChat: </Text>
-            <TextInput onChangeText={ name => this.onNameChange(name) } style={ styles.nameInput }/>
+            <TextInput
+              onChangeText={ name => this.onNameChange(name) }
+              style={ styles.nameInput }
+              onKeyPress={ (e) => {
+                if (e.key === 'Enter') this.createConversation();
+              } }
+            />
           </View>
           <TouchableWithoutFeedback
             onPress={ this.props.close }
