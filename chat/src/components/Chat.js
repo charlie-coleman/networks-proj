@@ -14,8 +14,7 @@ class Chat extends React.Component {
     }
 
     send(message) {
-      console.log(this.props.conversation.id);
-        sendMessage(message.text, this.props.user, this.props.conversation.id);
+      sendMessage(message.text, this.props.user, this.props.conversation.id);
     }
 
     render() {

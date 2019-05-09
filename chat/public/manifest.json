@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SLUChat",
+  "name": "CSCI 3650 Groupchat Application",
   "icons": [
     {
       "src": "favicon.ico",

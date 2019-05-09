@@ -16,17 +16,14 @@ io.on('connection', socket => {
       }
     }).then((users) => {
       if(users.length === 0) {
-        User.create({
-          name,
-          password
-        }).then(user => {
+        User.createSecureUser(name, password).then(user => {
           mobileSockets[user.id] = socket.id;
-          socket.emit('authsuccess', { user: user });
-          socket.broadcast.emit('newUser', { user: user});
+          socket.emit('authsuccess', user);
+          socket.broadcast.emit('newUser', user);
         });
       }
       else {
-        socket.emit('authfailed', { message: 'Username is in use.' });
+        socket.emit('authfailed', 'Username is in use.');
       }
     });
   });
@@ -34,18 +31,13 @@ io.on('connection', socket => {
   socket.on('login', credentials => {
     console.log('login');
     const { name, password } = credentials;
-    User.findOne({
-      where: {
-        name,
-        password
-      }
-    }).then((user) => {
+    User.login(name, password).then((user) => {
       if(!user) {
-        socket.emit('authFailed', { message: 'Incorrect username or password' });
+        socket.emit('authfailed', 'Incorrect username or password');
       }
       else {
         mobileSockets[user.id] = socket.id;
-        socket.emit('authsuccess', { user: user });
+        socket.emit('authsuccess', user);
       }
     });
   });

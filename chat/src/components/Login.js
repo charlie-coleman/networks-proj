@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, TextInput, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import { login, register } from '../store';
 
-export default class Login extends React.Component {
-    constructor() {
-        super();
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
         this.state = {
             name: '',
             password: ''
@@ -27,6 +28,15 @@ export default class Login extends React.Component {
     }
 
     render() {
+      var ErrorMsg;
+      if (this.props.autherror !== "") {
+        ErrorMsg = () => (
+          <Text style={ styles.error }>{ this.props.autherror }</Text>
+        );
+      }
+      else {
+        ErrorMsg = () => (<Text style={ styles.error }>&nbsp;</Text>);
+      }
       return (
           <View style={ styles.container }>
               <Text style={ styles.text }>Enter your name and password:</Text>
@@ -34,7 +44,9 @@ export default class Login extends React.Component {
                   onChangeText={ value => this.handleChange('name', value) }
                   returnKeyType='next'
                   autoCorrect={false}
-                  onSubmitEditing={ () => this.passwordInput.focus() }
+                  onKeyPress={ (e) => {
+                    if (e.key === 'Enter') this.passwordInput.focus();
+                  } }
                   style={ styles.input }
               />
               <TextInput
@@ -43,8 +55,12 @@ export default class Login extends React.Component {
                   returnKeyType='go'
                   autoCapitalize='none'
                   style={ styles.input }
+                  onKeyPress={ (e) => {
+                    if (e.key === 'Enter') this.handleLogin();
+                  } }
                   ref={ input => this.passwordInput = input}
               />
+              <ErrorMsg />
               <View style={ styles.buttonHolder }>
                 <TouchableWithoutFeedback
                   onPress={ this.handleLogin }
@@ -74,6 +90,11 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
+        fontWeight: 'bold'
+    },
+    error: {
+        fontSize: 20,
+        color: 'red',
         fontWeight: 'bold'
     },
     input: {
@@ -111,3 +132,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
+
+
+const mapState = (state) => ({
+  autherror: state.autherror
+});
+
+export default connect(mapState)(Login);

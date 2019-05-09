@@ -16,28 +16,30 @@ class ConversationList extends React.Component {
 
   render() {
     return (
-      <View style={styles.convoList}>
-        {
-          this.props.conversations.map(c => (
-            <View style={styles.conversation} key={c.id}>
-              <View style={ styles.conversationInfo }>
-                <Text style={ styles.conversationTitle }>{ c.name }</Text>
-                <Text style={ styles.conversationMembers}>{ c.users.map(u => u.name).join(', ') }</Text>
-              </View>
-              <TouchableWithoutFeedback
-                style={ styles.buttonStyle }
-                onPress={ () => this.openConversation(c.id) }
-              >
-                <View style={styles.buttonStyle}>
-                  <Text style={styles.buttonText}>Open</Text>
+      <View style={ styles.convoList }>
+        <View style={ styles.conversations }>
+          {
+            this.props.conversations.map(c => (
+              <View style={styles.conversation} key={c.id}>
+                <View style={ styles.conversationInfo }>
+                  <Text style={ styles.conversationTitle }>{ c.name }</Text>
+                  <Text style={ styles.conversationMembers }>{ c.users.map(u => u.name).join(', ') }</Text>
                 </View>
-              </TouchableWithoutFeedback>
-            </View>
-          ))
-        }
-        <TouchableWithoutFeedback style={styles.buttonStyle}
+                <TouchableWithoutFeedback
+                  style={ styles.buttonStyle }
+                  onPress={ () => this.openConversation(c.id) }
+                >
+                  <View style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Open</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            ))
+          }
+        </View>
+        <TouchableWithoutFeedback
+          style={styles.buttonStyle}
           onPress={ this.props.open }
-          color="powderblue"
         >
           <View style={styles.buttonStyle}>
             <Text style={styles.buttonText}>New Conversation</Text>
@@ -50,22 +52,32 @@ class ConversationList extends React.Component {
 
 const styles = StyleSheet.create({
   convoList: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "column",
-    flexWrap: 'nowrap',
+    display: 'flex',
+    flexDirection: 'column',
+    overflowX: 'hidden',
     alignItems: 'center',
+    width: '100vw',
+    flexGrow: 1
+  },
+  conversations: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    flexGrow: 1,
   },
   conversation: {
     display: "flex",
-    width: "80%",
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    justifyContent: 'space-between',
+    width: "80%",
     padding: 5
   },
+  conversationInfo: {
+    flexGrow: 1
+  },
   conversationTitle: {
-    fontSize: '16pt',
+    fontSize: '16pt'
   },
   conversationMembers: {
     fontSize: '11pt',
@@ -73,8 +85,10 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: 'powderblue',
+    flexGrow: '0',
     padding: 10,
-    borderRadius: 10
+    borderRadius: 10,
+    margin: 15
   },
   buttonText: {
     fontSize: '16pt',

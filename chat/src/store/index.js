@@ -5,10 +5,11 @@ import user, { gotUser, clearUser } from './user';
 import conversations, { gotConversations, addConversation, clearConversations } from './conversations';
 import users, { gotUsers, addUser, clearUsers } from './users';
 import conversation, { gotConversation, clearConversation } from './conversation';
+import autherror, { gotAuthError, clearAuthError } from './autherror';
 
 import socket from './socket';
 
-const reducers = combineReducers({ messages, user, users, conversation, conversations });
+const reducers = combineReducers({ messages, user, users, conversation, conversations, autherror });
 
 const store = createStore(
     reducers,
@@ -20,12 +21,17 @@ socket.on('priorMessages', messages => {
 });
 
 socket.on('authsuccess', user => {
-  store.dispatch(gotUser(user.user));
+  store.dispatch(gotUser(user));
+  store.dispatch(clearAuthError());
 });
 
 socket.on('incomingMessage', message => {
     store.dispatch(gotNewMessage(message));
 });
+
+socket.on('authfailed', message => {
+  store.dispatch(gotAuthError(message));
+})
 
 socket.on('conversation', conversation => {
   store.dispatch(gotConversation(conversation));

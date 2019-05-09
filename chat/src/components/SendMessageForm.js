@@ -12,6 +12,10 @@ class SendMessageForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+      this.input.focus();
+    }
+
     handleChange(e) {
         this.setState({
             message: e.target.value
@@ -34,6 +38,7 @@ class SendMessageForm extends React.Component {
                     value={ this.state.message }
                     placeholder="Type your message and hit ENTER."
                     type="text"
+                    ref={ inp => this.input = inp }
                 />
             </form>
         )

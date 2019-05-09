@@ -10,7 +10,6 @@ class ChangeableContent extends React.Component {
         if (this.props.user.id && !this.props.conversation.id) {
             Content = Conversations;
         } else if (this.props.user.id && this.props.conversation.id) {
-          console.log('huh?');
             Content = Chat;
         }
         return (

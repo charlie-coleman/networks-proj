@@ -10,7 +10,7 @@ class NewConversation extends React.Component {
     this.state = {
       name: '',
       users: [this.props.user],
-      errorText: ''
+      errorText: ' '
     }
     this.createConversation = this.createConversation.bind(this);
     this.onNameChange = this.onNameChange.bind(this);
@@ -25,7 +25,7 @@ class NewConversation extends React.Component {
   createConversation() {
     if (this.state.name !== '' && this.state.users.length > 1) {
       this.setState({
-        errorText: ''
+        errorText: ' '
       });
       createConvo(this.state.name, this.state.users.map(u => u.id));
       this.props.close();
@@ -52,12 +52,18 @@ class NewConversation extends React.Component {
   render() {
     return (
       <View style={ styles.newChatHolder }>
-        <View>
-          <Text style={ styles.errorText }>{ this.state.errorText }</Text>
-        </View>
         <View style={ styles.inputDiv }>
-          <Text style={ styles.inputLabel }>Name of GroupChat: </Text>
-          <TextInput onChangeText={ name => this.onNameChange(name) } style={ styles.nameInput }/>
+          <View style={ styles.name }>
+            <Text style={ styles.inputLabel }>Name of GroupChat: </Text>
+            <TextInput onChangeText={ name => this.onNameChange(name) } style={ styles.nameInput }/>
+          </View>
+          <TouchableWithoutFeedback
+            onPress={ this.props.close }
+          >
+            <View style={ styles.closeButton }>
+              <Text style={ styles.closeText }>&times;</Text>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
         <View style={ styles.userListHolder }>
           <View style={ styles.userList }>
@@ -98,13 +104,16 @@ class NewConversation extends React.Component {
             }
           </View>
         </View>
-        <TouchableWithoutFeedback
-          onPress={ this.createConversation }
-        >
-          <View style={ styles.doneButton }>
-            <Text style={ styles.doneText }>Done!</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <Text style={ styles.errorText }>{ this.state.errorText }</Text>
+        <View style={ styles.submission }>
+          <TouchableWithoutFeedback
+            onPress={ this.createConversation }
+          >
+            <View style={ styles.doneButton }>
+              <Text style={ styles.doneText }>Done!</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     )
   }
@@ -130,6 +139,11 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: '18pt'
+  },
+  name: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexGrow: 1,
   },
   nameInput: {
       borderWidth: 0.5,
@@ -175,7 +189,22 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   doneText: {
-    fontSize: '22pt'
+    fontSize: '16pt'
+  },
+  closeButton: {
+    backgroundColor: 'crimson',
+    borderRadius: 2,
+    width: 25,
+    height: 25
+  },
+  closeText: {
+    fontSize: '18pt',
+    lineHeight: 25,
+    textAlign: 'center'
+  },
+  submission: {
+    display: 'flex',
+    flexDirection: 'row',
   }
 });
 

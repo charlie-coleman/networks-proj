@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout, chooseConversation } from '../store';
+import './style.css';
 
 class ChangeableMenu extends React.Component {
     constructor() {
@@ -38,7 +39,10 @@ class ChangeableMenu extends React.Component {
       else if (this.props.user.id && this.props.conversation.id) {
         Content = () => (
           <div className='title-cont'>
-              <div className="title">Networks Chat App</div>
+              <div className="title">
+                <div className="gc-name">{ this.props.conversation.name }</div>
+                <div className="gc-members">{ this.props.conversation.users.map(u => u.name).join(', ')}</div>
+              </div>
               <a href="/" onClick={ (e) => { e.preventDefault(); this.returnToUsers();} }>
                   <div className="menu-link" >
                       Conversation list
