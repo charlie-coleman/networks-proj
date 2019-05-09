@@ -1,0 +1,14 @@
+{
+  "postgre": {
+    "username": "networks",
+    "password": "password"
+  },
+  "https": false,
+  "ssl": {
+      "key": "",
+      "cert": ""
+  },
+  "serverport": 8080,
+  "serverurl": "http://localhost",
+  "wipedb": false
+}
