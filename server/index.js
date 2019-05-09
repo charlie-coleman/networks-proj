@@ -8,7 +8,6 @@ const mobileSockets = {};
 
 io.on('connection', socket => {
   socket.on('newUser', credentials => {
-    console.log('newUser');
     const { name, password } = credentials;
     User.findAll({
       where: {
@@ -29,7 +28,6 @@ io.on('connection', socket => {
   });
 
   socket.on('login', credentials => {
-    console.log('login');
     const { name, password } = credentials;
     User.login(name, password).then((user) => {
       if(!user) {
@@ -43,7 +41,6 @@ io.on('connection', socket => {
   });
 
   socket.on('getUsers', () => {
-    console.log('getUsers');
     User.findAll().then((users) => {
       if (!users) { users = []; }
       socket.emit('users', users);
@@ -51,7 +48,6 @@ io.on('connection', socket => {
   })
 
   socket.on('getConversations', userId => {
-    console.log('getConversations');
     User.findOne({
       where: {
         id: userId
@@ -73,7 +69,6 @@ io.on('connection', socket => {
   })
 
   socket.on('openchat', id => {
-    console.log('openchat');
     Conversation.getConversation(id)
       .then(conversation => {
         socket.emit('conversation', conversation);
@@ -82,7 +77,6 @@ io.on('connection', socket => {
   });
 
   socket.on('createchat', info => {
-    console.log('createchat');
     const { name, userIds } = info;
     Conversation.createConversation(name, userIds)
       .then(conversation => {
@@ -102,7 +96,6 @@ io.on('connection', socket => {
   })
 
   socket.on('message', ({ text, sender, convoId }) => {
-    console.log('message');
     Message.createMessage(text, sender, convoId)
       .then(message => {
         socket.emit('incomingMessage', message);
