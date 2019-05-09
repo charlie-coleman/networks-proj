@@ -1,10 +1,19 @@
-const server = require('http').createServer().listen(3000);
+const https = require('https');
+const fs = require('fs');
 const conn = require('./db').conn;
 const { Op } = conn.Sequelize;
-const io = require('socket.io')(server);
+const socket = require('socket.io');
 const { User, Conversation, Message } = require('./db').models;
-conn.sync({ logging: false, force: false });
+conn.sync({ logging: false, force: true });
 const mobileSockets = {};
+
+const options = {
+  key: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/fullchain.pem")
+};
+
+const server = https.createServer(options).listen(3000);
+const io = socket(server);
 
 io.on('connection', socket => {
   socket.on('newUser', credentials => {

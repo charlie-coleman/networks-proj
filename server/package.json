@@ -10,7 +10,9 @@
   "author": "Charlie Coleman, Nick Markunas",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "express": "^4.16.4",
+    "https": "^1.0.0",
     "nodemon": "^1.18.10",
     "pg": "^7.10.0",
     "sequelize": "^5.7.6",

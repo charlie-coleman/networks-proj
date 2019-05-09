@@ -2,6 +2,7 @@
   "name": "chat",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://charlie-coleman.com/networks",
   "scripts": {
     "start": "./node_modules/.bin/react-native start",
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start -- --reset-cache",
