@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-const socket = io('https://charlie-coleman.com:8080');//, { secure: true });
+const socket = io('http://localhost:8080');//, { secure: true });
 
 socket.connect();
 export default socket;
