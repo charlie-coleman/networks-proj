@@ -8,13 +8,13 @@ const { User, Conversation, Message } = require('./db').models;
 conn.sync({ logging: false, force: true });
 const mobileSockets = {};
 
-// const options = {
-//   key: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/privkey.pem"),
-//   cert: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/fullchain.pem")
-// };
+const options = {
+  key: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/charlie-coleman.com/fullchain.pem")
+};
 
-// const server = https.createServer(options).listen(8080);
-const server = http.createServer().listen(8080);
+const server = https.createServer(options).listen(8080);
+// const server = http.createServer().listen(8080);
 const io = socket(server);
 
 const unRegex = /^[a-zA-Z0-9\-._:\(\)\!\?]*$/;
