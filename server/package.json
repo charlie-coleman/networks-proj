@@ -15,7 +15,7 @@
     "https": "^1.0.0",
     "nodemon": "^1.18.10",
     "pg": "^7.10.0",
-    "sequelize": "^5.7.6",
+    "sequelize": "^5.15.1",
     "socket.io": "^2.2.0",
     "webrtc": "^1.14.1"
   }
